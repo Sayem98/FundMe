@@ -7,9 +7,11 @@ contract fundMe {
     mapping(address => uint256) public addressToAmountFunded;
     address public owner;
     address[] public funders;
+    AggregatorV3Interface public priceFeed;
 
 
-    constructor() public{
+    constructor(address _priceFeedAddress) public{
+        priceFeed = AggregatorV3Interface(_priceFeedAddress);
         owner = msg.sender;
     }
 
@@ -28,7 +30,7 @@ contract fundMe {
     }
 
     function getPrice() public view returns(uint256){
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
+        // AggregatorV3Interface priceFeed = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
         (,int256 answer,,,) = priceFeed.latestRoundData();
          return uint256(answer * 10000000000);
     }
@@ -44,6 +46,8 @@ contract fundMe {
         
         msg.sender.transfer(address(this).balance);
     }
+
+    
     function contractBalance() public view returns(uint256){
         return address(this).balance;
     }
