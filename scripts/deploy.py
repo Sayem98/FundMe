@@ -21,6 +21,8 @@ def deploy_fund_me():
    )
    print(f'Contract deployed at: {fund_me.address}')
 
+   return fund_me
+
 
 def main():
     deploy_fund_me()

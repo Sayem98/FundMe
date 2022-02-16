@@ -1,6 +1,6 @@
 from re import L
 from brownie import accounts, config, network, MockV3Aggregator
-from web3 import Web3
+
 
 LOCAL_BLOCKCHAIN_ENVIRONMENTS = ['development', 'ganache-local']
 
@@ -14,7 +14,7 @@ def get_account():
 def deploy_MockV3Aggregator():
     print('Mock deploying...')
     if len(MockV3Aggregator) <=0:
-        MockV3Aggregator.deploy(18, Web3.toWei(200, 'ether'), {'from': get_account()})
+        MockV3Aggregator.deploy(8, 200000000000, {'from': get_account()})
     
     # print(price_feed_address)
     print('Deployed...')
