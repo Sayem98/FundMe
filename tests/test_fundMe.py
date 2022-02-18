@@ -1,6 +1,8 @@
-from brownie import accounts
-from scripts.heplfulScripts import get_account
+from asyncio import exceptions
+from brownie import accounts, network
+from scripts.heplfulScripts import get_account, LOCAL_BLOCKCHAIN_ENVIRONMENTS
 from scripts.deploy import deploy_fund_me
+import pytest
 
 
 def test_can_fund_and_withdraw():
@@ -14,3 +16,13 @@ def test_can_fund_and_withdraw():
     tx2 = fund_me.withdraw({"from": account})
     tx2.wait(1)
     assert fund_me.contractBalance() == 0
+
+
+def only_owner_can_withdraw():
+    if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
+        pytest.skip("Only for local testing...!")
+    else:
+        fund_me = deploy_fund_me()
+        new_char = accounts.add()
+        with pytest.raises(exceptions.VirtualMachineError):
+            fund_me.withdraw({"from": new_char})

@@ -10,6 +10,8 @@ wallets:
   from_key: ${PRIVATE_KEY}
 
 networks:
+  # Default comes autometically with value development. can be changed.
+  # default: development
   rinkeby:
     eth_usd_price_feed: "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e"
     verify: True
